@@ -125,6 +125,12 @@ elseif(BUILD_ENV_APPLE)
         "$<TARGET_FILE:tnzbase>"
     )
 
+    # If SuperLU is built from thirdparty source (architecture mismatch with the
+    # bundled archive), make sure the archive exists before linking tnzext.
+    if(TARGET superlu_local)
+        add_dependencies(tnzext superlu_local)
+    endif()
+
     target_link_libraries(tnzext
         Qt5::Core Qt5::Gui Qt5::OpenGL Qt5::Network
         ${ACCE_LIB} ${GLUT_LIB} ${GL_LIB} ${SUPERLU_LIB} ${EXTRA_LIBS}

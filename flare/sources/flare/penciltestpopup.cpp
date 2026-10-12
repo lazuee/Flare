@@ -1,5 +1,11 @@
 #include "penciltestpopup.h"
 
+// OpenCV 5 moved getOptimalNewCameraMatrix to the geometry module, which
+// opencv2/opencv.hpp does not include
+#if defined(CV_VERSION_MAJOR) && CV_VERSION_MAJOR >= 5
+#include <opencv2/geometry.hpp>
+#endif
+
 #ifdef WIN32
 #include <Windows.h>
 #include <mfobjects.h>

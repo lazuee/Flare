@@ -760,6 +760,16 @@ if(BUILD_ENV_APPLE)
         COMMENT "Creating qss directory"
     )
 
+    # Provide the runtime "stuff" data folder (TEnv portable-mode lookup in
+    # main.cpp resolves it next to the app bundle). Copied — never symlinked —
+    # so the app's runtime writes (user profiles, sandbox, ...) stay inside the
+    # gitignored build tree instead of dirtying the repo. Runs on every build,
+    # so a fresh clone/build dir is self-sufficient without FLAREROOT.
+    add_custom_command(TARGET Flare POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${FLARE_ROOT}/stuff ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/../../../portablestuff
+        COMMENT "Refreshing portablestuff (app data folder) from ${FLARE_ROOT}/stuff"
+    )
+
     # REMOVED: The duplicate RPATH commands were merged at the top of if(BUILD_ENV_APPLE)
 endif()
 

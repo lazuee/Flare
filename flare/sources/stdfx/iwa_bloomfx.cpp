@@ -2,8 +2,14 @@
 
 #include "tparamuiconcept.h"
 
-#include <QVector>
-#include <QPair>
+#include <opencv2/core.hpp>
+
+// OpenCV 5 moved getRotationMatrix2D from imgproc to the geometry module
+#if defined(CV_VERSION_MAJOR) && CV_VERSION_MAJOR >= 5
+#include <opencv2/geometry.hpp>
+#else
+#include <opencv2/imgproc.hpp>
+#endif
 
 namespace {
 // convert sRGB color space to power space
